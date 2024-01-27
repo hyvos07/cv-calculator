@@ -25,6 +25,7 @@ class CVCalculator(tk.Frame):
     def calculate(self, frame, side):
         #TODO: Interface to input crit rate & dmg
         pass
+        pass
         
 
 if __name__ == "__main__":
