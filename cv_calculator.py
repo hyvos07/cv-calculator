@@ -1,5 +1,8 @@
 import tkinter as tk
+import pyglet
 from tkinter import PhotoImage
+
+pyglet.font.add_file('src/gi_font.ttf') # Adding Genshin Font
 
 class CVCalculator(tk.Frame):
     def __init__(self, master=None):
@@ -33,36 +36,41 @@ class CVCalculator(tk.Frame):
         self.cr_label = tk.Label(
             self.input_frame,
             text="Input the Artifact's Crit Rate",
-            font="Helvetica 12 bold"
+            font=("HYWenHei-85W", 12)
         )
         
         self.cdmg_label = tk.Label(
             self.input_frame,
             text="Input the Artifact's Crit DMG",
-            font="Helvetica 12 bold"
+            font=("HYWenHei-85W", 12)
         )
         
         self.cr_field = tk.Entry(
             self.input_frame,
             textvariable=self.__cr,
-            width=15,
+            width=20,
             justify="center"
         )
         
         self.cdmg_field = tk.Entry(
             self.input_frame,
             textvariable=self.__cdmg,
-            width=15,
+            width=20,
             justify="center"
         )
         
-        self.circlet = tk.Checkbutton(self.input_frame, text="Crit Circlet", variable=self.__is_circlet)
+        self.circlet = tk.Checkbutton(
+            self.input_frame,
+            text="Crit Circlet",
+            variable=self.__is_circlet,
+            font=("HYWenHei-85W", 10)
+        )
         
-        self.cr_label.pack(side=tk.TOP, pady=(0, 5), padx=10)
-        self.cr_field.pack(side=tk.TOP, pady=(0, 20), padx=10)
-        self.cdmg_label.pack(side=tk.TOP, pady=(0, 5), padx=10)
-        self.cdmg_field.pack(side=tk.TOP, pady=(0, 20), padx=10)
-        self.circlet.pack(side=tk.TOP, pady=(40, 40), padx=10)
+        self.cr_label.pack(side=tk.TOP, pady=(0, 5), padx=100)
+        self.cr_field.pack(side=tk.TOP, pady=(0, 25), padx=100)
+        self.cdmg_label.pack(side=tk.TOP, pady=(0, 5), padx=100)
+        self.cdmg_field.pack(side=tk.TOP, pady=(0, 25), padx=100)
+        self.circlet.pack(side=tk.TOP, pady=(7, 20), padx=100)
         
         self.input_frame.pack(side=tk.RIGHT)
         
