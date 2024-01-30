@@ -1,6 +1,6 @@
 import tkinter as tk
 import pyglet
-from tkinter import PhotoImage, ttk
+from tkinter import PhotoImage, ttk, messagebox
 
 pyglet.font.add_file('src/gi_font.ttf') # Adding Genshin Font
 
@@ -15,14 +15,28 @@ class CVCalculator(tk.Frame):
         self.__gi_font.configure("Genshin.TCheckbutton", font=("HYWenHei-85W", 10))
         
         self.__cr = tk.StringVar() # Input Crit Rate
+        self.__cr.set("0")
         self.__cdmg = tk.StringVar() # Input Crit DMG
+        self.__cdmg.set("0")
+        self.__cv = 0.0 # Default Value
         self.__is_circlet = tk.BooleanVar() # Assuring the artifact is a Crit Circlet or no
         
         self.master.resizable(False, False)
         self.master.title("Genshin Impact Crit Value Calculator")
+        
+        w = 824
+        h = 409
+        ws = self.master.winfo_screenwidth()
+        hs = self.master.winfo_screenheight()
+        x = int((ws/2) - (w/2))
+        y = int((hs/2) - (h/2))
+        
+        self.master.geometry(f"{w}x{h}+{x}+{y}")
+        
         self.master.iconbitmap("src/paimon.ico") # Not really necessary but ok
         
         self.app_interface()
+        
         
     # ===== Methods =====
     def app_interface(self):
@@ -89,9 +103,23 @@ class CVCalculator(tk.Frame):
             text="Calculate CV ",
             style="Genshin.TButton",
             image=self.__ganyu_icon,
+            command=self.generate_cv,
             compound=tk.RIGHT,
             width=10,
             cursor="hand2"
+        )
+        
+        self.cv_label = tk.Label(
+            self.interface_frame,
+            text=f"Your Artifact's Crit Value : {self.__cv}",
+            font=("HYWenHei-85W", 11)
+        )
+        
+        self.cv_rank = tk.Label(
+            self.interface_frame,
+            text="No Upgrades",
+            foreground="dark grey",
+            font=("HYWenHei-85W", 15)
         )
         
         # Pack for Input Form
@@ -108,28 +136,77 @@ class CVCalculator(tk.Frame):
         self.desc.pack(side=tk.TOP, pady=(0, 5), padx=50)
         self.form_frame.pack(side=tk.TOP, pady=(0, 10))
         self.circlet.pack(side=tk.TOP, pady=(0, 15), padx=50)
-        self.generate_btn.pack(side=tk.TOP, pady=(5, 20), padx=50)
+        self.generate_btn.pack(side=tk.TOP, pady=(5, 25), padx=50)
+        self.cv_label.pack(side=tk.TOP, pady=(5, 0), padx=50)
+        self.cv_rank.pack(side=tk.TOP, pady=(5, 0), padx=50)
         
         # Pack the Frame
         self.interface_frame.pack(side=tk.RIGHT)
         
-        self.cr_field.focus()
+        self.cr_field.focus() # Auto Focusing Keyboard (?) to input Crit Rate
     
+    def generate_rank(self):
+        # NOTE: I'm not pretty sure for the Crit Circlet yet..
+        self.__rank = "Impossible!"
+        self.__color_rank = "dark red"
+        
+        __rank_tier = {
+            0 : ["No Upgrades", "dark grey"],
+            10 : ["Average", "#deb63e"],
+            20 : ["Decent", "#7d7765"],
+            30 : ["Very Good", "#336134"],
+            40 : ["Jewel", "#abd6ac"],
+            50 : ["Unicorn?!", "#b856ae"]
+        }
+        
+        __range = 5 if self.__is_circlet.get() else 10
+        __circlet_doubled = 2 if self.__is_circlet.get() else 1
+        __start_comp = 0
+        
+        for i in range(6):
+            if __start_comp <= self.__cv < (__start_comp + __range):
+                self.__rank = __rank_tier[__start_comp*__circlet_doubled][0]
+                self.__color_rank = __rank_tier[__start_comp*__circlet_doubled][1]
+                break
+            __start_comp += __range
+        
+        self.cv_rank['text'] = self.__rank
+        self.cv_rank['foreground'] = self.__color_rank
+            
     
     def generate_cv(self):
-        # TODO: Changeable Label to display CV Range and Value.
-        pass
-    
-    
-    def calc_cv(self):
         try:
-            crit_rate = float(self.__cr.get())
-            crit_dmg = float(self.__cdmg.get())
-        except ValueError:
-            return False # Can't calculate Crit Value
+            __crit_rate = float(self.__cr.get())
+            __crit_dmg = float(self.__cdmg.get())
+            
+            # Highest CR possible is 23.4% and 46.8% for CDMG. Negative Crit is also not possible.
+            if not(0 <= __crit_rate <= 23.4) or not(0 <= __crit_dmg <= 46.8):
+                raise Exception
+            
+            self.__cv = __crit_rate*2 + __crit_dmg
+            
+            self.cv_label["text"] = f"Your Artifact's Crit Value : {self.__cv}"
+            self.generate_rank()
+        except ValueError: # User input is not a number.
+            if "%" in self.__cr.get() or "%" in self.__cdmg.get():
+                tk.messagebox.showwarning(
+                    title="Unable to Calculate CV",
+                    message="Didn't we told you to not use the '%'..."
+                )
+            else:
+                tk.messagebox.showwarning(
+                    title="Unable to Calculate CV",
+                    message="Please input your crit substats properly."
+                )
+        except:
+            tk.messagebox.showwarning(
+                title="Unable to Calculate CV",
+                message="Your crit substats don't seem right..\n(Take notes that crit main stats are not sub stats)."
+            )
 
 
 
 if __name__ == "__main__":
     app = CVCalculator()
     app.master.mainloop()
+    
