@@ -143,7 +143,8 @@ class CVCalculator(tk.Frame):
         # Pack the Frame
         self.interface_frame.pack(side=tk.RIGHT)
         
-        self.cr_field.focus() # Auto Focusing Keyboard (?) to input Crit Rate
+        self.cr_field.focus() # Focusing
+    
     
     def generate_rank(self):
         # NOTE: I'm not pretty sure for the Crit Circlet yet..
