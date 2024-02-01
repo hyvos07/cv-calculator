@@ -206,7 +206,6 @@ class CVCalculator(tk.Frame):
             )
 
 
-
 if __name__ == "__main__":
     app = CVCalculator()
     app.master.mainloop()
