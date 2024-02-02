@@ -133,7 +133,7 @@ class CVCalculator(tk.Frame):
         self.cdmg_frame.pack(side=tk.LEFT, pady=(15, 0))
         
         # Pack for main interface frame
-        self.desc.pack(side=tk.TOP, pady=(0, 5), padx=50)
+        self.desc.pack(side=tk.TOP, pady=(0, 5), padx=40)
         self.form_frame.pack(side=tk.TOP, pady=(0, 10))
         self.circlet.pack(side=tk.TOP, pady=(0, 15), padx=50)
         self.generate_btn.pack(side=tk.TOP, pady=(5, 25), padx=50)
