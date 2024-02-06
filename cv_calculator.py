@@ -184,7 +184,7 @@ class CVCalculator(tk.Frame):
             if not(0 <= __crit_rate <= 23.4) or not(0 <= __crit_dmg <= 46.8):
                 raise Exception
             
-            self.__cv = __crit_rate*2 + __crit_dmg
+            self.__cv = round(__crit_rate*2 + __crit_dmg, 2)
             
             self.cv_label["text"] = f"Your Artifact's Crit Value : {self.__cv}"
             self.generate_rank()
