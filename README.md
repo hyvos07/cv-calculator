@@ -4,7 +4,7 @@
 
 <br>
 
-# Genshin Impact Crit Value Calculator
+<h1 align="center"> Genshin Impact Crit Value Calculator </h1>
 
 <p align="justify">This is a project about Genshin Impact Crit Value (CV) Calculator that are made with <b>Python</b> and <b>Tkinter GUI Interface</b>.</p>
 
@@ -12,7 +12,18 @@
 
 <br>
 
+## How to Use
+<p align="justify">
+    Input your Crit substats (both Crit Rate and Drit DMG) of your artifact on the entry box and hit that "Calculate CV" with a small cocogoat button.<br>
+</p>
+
+![alt text](src/demo.gif)
+
+<p align="justify">
+    Your Artifact's CV Tier will be displayed on the text right below the button, automatically after you hit it. Somehow, there is a chance where some of you might put the impossible Crit substats (and yes, I know some of you will try to do that) so I added a little prevention for that :&#41;
+</p>
 
 <h3 align="center">
+    <br>
     [ WIP - Website Version Coming Soon ]
 </h3>
