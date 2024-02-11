@@ -4,7 +4,7 @@
 
 <br>
 
-<h1 align="center"> Genshin Impact Crit Value Calculator </h1>
+# Genshin Impact Crit Value Calculator
 
 <p align="justify">This is a project about Genshin Impact Crit Value (CV) Calculator that are made with <b>Python</b> and <b>Tkinter GUI Interface</b>.</p>
 
